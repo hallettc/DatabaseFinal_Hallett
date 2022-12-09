@@ -339,6 +339,89 @@ print("\nExam Table \n\n" , df)
 # print(df['name'])
 
 
+#Queries
+print("\n\n\n Queries \n\n")
+
+print("How many pets are registered at the clinic at 1121 Scale Rd. Miami, FL?")
+query = """
+    SELECT count(petNo) AS numberOfPets
+    FROM Pet p, Clinic c
+    WHERE((p.clinicNo IS c.clinicNo) AND (c.clinicAddress IS '1121 Scale Rd. Miami, FL') )
+    """
+cursor.execute(query)
+column_names = [row[0] for row in cursor.description]
+
+# Fetch data and load into a pandas dataframe
+table_data = cursor.fetchall()
+df = pd.DataFrame(table_data, columns=column_names)
+
+# Examine dataframe
+print("\nAnswer: \n" , df)
+
+print("\n\nWhat pet is being seen during exam 3346 (return all info)?")
+query = """
+    SELECT p.*
+    FROM Exam e, Pet p 
+    WHERE (e.petNo IS p.petNo) AND (e.examNo IS 3346)
+    """
+cursor.execute(query)
+column_names = [row[0] for row in cursor.description]
+
+# Fetch data and load into a pandas dataframe
+table_data = cursor.fetchall()
+df = pd.DataFrame(table_data, columns=column_names)
+
+# Examine dataframe
+print("\nAnswer: \n" , df)
+
+print("\n\nWhat is the telephone number of the manager of Clinic 0040?")
+query = """
+    SELECT s.staffTele
+    FROM Staff s, Clinic c 
+    WHERE (c.managerNo IS s.staffNo) AND (c.clinicNo IS 0040)
+    """
+cursor.execute(query)
+column_names = [row[0] for row in cursor.description]
+
+# Fetch data and load into a pandas dataframe
+table_data = cursor.fetchall()
+df = pd.DataFrame(table_data, columns=column_names)
+
+# Examine dataframe
+print("\nAnswer: \n" , df)
+
+print("\n\nWhat is the name of the owner of pet 923?")
+query = """
+    SELECT o.ownerName
+    FROM Owner o, pet p 
+    WHERE(p.ownerNo IS o.ownerNo) AND (p.petNo IS 923)
+    """
+cursor.execute(query)
+column_names = [row[0] for row in cursor.description]
+
+# Fetch data and load into a pandas dataframe
+table_data = cursor.fetchall()
+df = pd.DataFrame(table_data, columns=column_names)
+
+# Examine dataframe
+print("\nAnswer: \n" , df)
+
+
+print("\n\nGet the information of the person examining pet 9783.")
+query = """
+    SELECT s.*
+    FROM Staff s, Exam e 
+    WHERE(s.staffNo IS e.staffNo) AND (e.petNo IS 9783)
+    """
+cursor.execute(query)
+column_names = [row[0] for row in cursor.description]
+
+# Fetch data and load into a pandas dataframe
+table_data = cursor.fetchall()
+df = pd.DataFrame(table_data, columns=column_names)
+
+# Examine dataframe
+print("\nAnswer: \n" , df)
 # Commit any changes to the database
 db_connect.commit()
 
